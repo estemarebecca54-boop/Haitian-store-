@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Haitian Store</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #222;
+}
+
+/* ================= HEADER ================= */
+
+header {
+    background: white;
+    padding: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: #e87500;
+}
+
+.search-box {
+    display: flex;
+    flex: 1;
+}
+
+#search {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 20px 0 0 20px;
+    font-size: 15px;
+}
+
+.search-btn {
+    border: none;
+    padding: 12px 16px;
+    background: #222;
+    color: white;
+    border-radius: 0 20px 20px 0;
+}
+
+.cart-button {
+    border: none;
+    background: transparent;
+    font-size: 26px;
+    cursor: pointer;
+    position: relative;
+}
+
+#cart-count {
+    background: #e87500;
+    color: white;
+    font-size: 12px;
+    padding: 4px 7px;
+    border-radius: 50%;
+    position: absolute;
+    top: -8px;
+    right: -10px;
+}
+
+/* ================= CATEGORIES ================= */
+
+.categories {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.category-btn {
+    border: none;
+    background: transparent;
+    color: #135b8d;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.category-btn.active {
+    background: #e87500;
+    color: white;
+}
+
+/* ================= CONTENU ================= */
+
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 25px;
+}
+
+.welcome {
+    background: #ffe5cf;
+    padding: 30px;
+    border-radius: 25px;
+    margin-bottom: 30px;
+}
+
+.welcome h1 {
+    margin-top: 0;
+    font-size: 35px;
+}
+
+.welcome p {
+    font-size: 19px;
+    color: #555;
+}
+
+#title {
+    font-size: 32px;
+}
+
+/* ================= PRODUITS ================= */
+
+#products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+}
+
+.info {
+    padding: 12px;
+}
+
+/* ECRITURE EN VERT */
+
+.name {
+    color: green;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.price {
+    color: green;
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.quantity {
+    color: green;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.buy {
+    width: 100%;
+    background: green;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* ================= PANIER ================= */
+
+#cart-panel {
+    display: none;
+    position: fixed;
+    right: 15px;
+    top: 90px;
+    width: 300px;
+    max-height: 70vh;
+    overflow-y: auto;
+    background: white;
+    padding: 18px;
+    border-radius: 18px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+    z-index: 200;
+}
+
+.cart-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.remove {
+    background: #d32f2f;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.whatsapp {
+    width: 100%;
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* ================= CHAT ================= */
+
+#chat-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #1976d2;
+    color: white;
+    border: none;
+    padding: 18px 25px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#chat-box {
+    display: none;
+    position: fixed;
+    right: 15px;
+    bottom: 90px;
+    width: 300px;
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+    z-index: 300;
+}
+
+#chat-messages {
+    height: 220px;
+    padding: 12px;
+    overflow-y: auto;
+}
+
+.message {
+    background: #f1f1f1;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+}
+
+.chat-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+    padding: 8px;
+}
+
+#message-input {
+    flex: 1;
+    padding: 8px;
+}
+
+.send-btn {
+    background: #1976d2;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 600px) {
+
+    .top {
+        flex-wrap: wrap;
+    }
+
+    .search-box {
+        order: 3;
+        width: 100%;
+    }
+
+    #products {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .welcome h1 {
+        font-size: 28px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="top">
+
+<div class="logo">Haitian Store 🇭🇹</div>
+
+<div class="search-box">
+<input type="text" id="search" placeholder="Que recherchez-vous ?">
+<button class="search-btn">🔍</button>
+</div>
+
+<button class="cart-button" onclick="toggleCart()">
+🛒
+<span id="cart-count">0</span>
+</button>
+
+</div>
+
+<div class="categories">
+
+<button class="category-btn active"
+onclick="changeCategory('all', this)">
+Tous
+</button>
+
+<button class="category-btn"
+onclick="changeCategory('men', this)">
+Men
+</button>
+
+<button class="category-btn"
+onclick="changeCategory('women', this)">
+Women
+</button>
+
+</div>
+
+</header>
+
+
+<main>
+
+<section class="welcome">
+
+<h1>Bienvenue sur Haitian Store 🇭🇹</h1>
+
+<p>
+Découvrez nos produits et nos meilleurs prix.
+</p>
+
+</section>
+
+<h2 id="title">Nos produits</h2>
+
+<div id="products"></div>
+
+</main>
+
+
+<!-- ================= PANIER ================= -->
+
+<div id="cart-panel">
+
+<h2>🛒 Mon panier</h2>
+
+<div id="cart-items"></div>
+
+<h3 id="total">Total : 0 G</h3>
+
+<button class="whatsapp"
+onclick="orderWhatsApp()">
+Commander sur WhatsApp
+</button>
+
+</div>
+
+
+<!-- ================= DISCUSSION ================= -->
+
+<div id="chat-box">
+
+<div id="chat-messages">
+
+<div class="message">
+Bonjour 👋 Bienvenue sur Haitian Store !
+</div>
+
+<div class="message">
+Si vous voulez commander un produit,
+cliquez sur <b>Ajouter au panier</b> 🛒
+</div>
+
+</div>
+
+<div class="chat-input">
+
+<input
+type="text"
+id="message-input"
+placeholder="Écrivez votre message..."
+>
+
+<button class="send-btn"
+onclick="sendMessage()">
+Envoyer
+</button>
+
+</div>
+
+</div>
+
+
+<button id="chat-button"
+onclick="toggleChat()">
+💬 Discussion
+</button>
+
+
+<script>
+
+/* ================= PRODUITS ================= */
+
+const products = [
+
+{
+id: 1,
+name: "Aventus Blue for Him",
+price: 1000,
+category: "men",
+quantity: 1,
+image: "IMG_6797.jpeg"
+},
+
+{
+id: 2,
+name: "Spray AXE Black Night",
+price: 500,
+category: "men",
+quantity: 2,
+image: "37abaf9d-cc07-4397-aea8-e2a7922b1b01.jpeg"
+},
+
+{
+id: 3,
+name: "Montre Classique Homme",
+price: 2500,
+category: "men",
+quantity: 3,
+image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=600"
+},
+
+{
+id: 4,
+name: "Parfum Homme",
+price: 1500,
+category: "men",
+quantity: 2,
+image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=600"
+},
+
+{
+id: 5,
+name: "Parfum Femme",
+price: 1800,
+category: "women",
+quantity: 2,
+image: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=600"
+},
+
+{
+id: 6,
+name: "Montre Femme",
+price: 2000,
+category: "women",
+quantity: 1,
+image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600"
+},
+
+{
+id: 7,
+name: "Sac Femme",
+price: 2200,
+category: "women",
+quantity: 2,
+image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600"
+}
+
+];
+
+
+/* ================= VARIABLES ================= */
+
+let category = "all";
+let cart = [];
+
+
+/* ================= AFFICHER PRODUITS ================= */
+
+function renderProducts() {
+
+const search =
+document.getElementById("search")
+.value
+.toLowerCase()
+.trim();
+
+
+const filteredProducts =
+products.filter(function(product) {
+
+const categoryMatch =
+category === "all" ||
+product.category === category;
+
+const searchMatch =
+product.name
+.toLowerCase()
+.includes(search);
+
+return categoryMatch && searchMatch;
+
+});
+
+
+const productsContainer =
+document.getElementById("products");
+
+
+if (filteredProducts.length === 0) {
+
+productsContainer.innerHTML =
+"<p>Aucun produit trouvé.</p>";
+
+return;
+
+}
+
+
+productsContainer.innerHTML =
+filteredProducts.map(function(product) {
+
+return `
+
+<article class="card">
+
+<img
+src="${product.image}"
+alt="${product.name}"
+>
+
+<div class="info">
+
+<div class="name">
+${product.name}
+</div>
+
+<div class="price">
+${product.price.toLocaleString("fr-FR")} G
+</div>
+
+<div class="quantity">
+Quantité disponible : ${product.quantity}
+</div>
+
+<button
+class="buy"
+onclick="addToCart(${product.id})"
+>
+Ajouter au panier
+</button>
+
+</div>
+
+</article>
+
+`;
+
+}).join("");
+
+}
+
+
+/* ================= CATEGORIES ================= */
+
+function changeCategory(newCategory, button) {
+
+category = newCategory;
+
+document
+.querySelectorAll(".category-btn")
+.forEach(function(btn) {
+
+btn.classList.remove("active");
+
+});
+
+button.classList.add("active");
+
+
+if (category === "all") {
+
+document.getElementById("title")
+.textContent = "Nos produits";
+
+}
+
+
+if (category === "men") {
+
+document.getElementById("title")
+.textContent = "Produits Men";
+
+}
+
+
+if (category === "women") {
+
+document.getElementById("title")
+.textContent = "Produits Women";
+
+}
+
+
+renderProducts();
+
+}
+
+
+/* ================= RECHERCHE ================= */
+
+document
+.getElementById("search")
+.addEventListener("input", function() {
+
+renderProducts();
+
+});
+
+
+/* ================= PANIER ================= */
+
+function addToCart(id) {
+
+const product =
+products.find(function(item) {
+
+return item.id === id;
+
+});
+
+
+if (product.quantity <= 0) {
+
+alert("Ce produit n'est plus disponible.");
+
+return;
+
+}
+
+
+product.quantity--;
+
+cart.push(product);
+
+updateCart();
+
+renderProducts();
+
+alert(product.name + " ajouté au panier 🛒");
+
+}
+
+
+function updateCart() {
+
+document
+.getElementById("cart-count")
+.textContent = cart.length;
+
+
+const cartItems =
+document.getElementById("cart-items");
+
+
+if (cart.length === 0) {
+
+cartItems.innerHTML =
+"<p>Votre panier est vide.</p>";
+
+document
+.getElementById("total")
+.textContent = "Total : 0 G";
+
+return;
+
+}
+
+
+cartItems.innerHTML =
+cart.map(function(product, index) {
+
+return `
+
+<div class="cart-item">
+
+<b>${product.name}</b>
+
+<br>
+
+${product.price.toLocaleString("fr-FR")} G
+
+<br><br>
+
+<button
+class="remove"
+onclick="removeFromCart(${index})"
+>
+Supprimer
+</button>
+
+</div>
+
+`;
+
+}).join("");
+
+
+const total =
+cart.reduce(function(sum, product) {
+
+return sum + product.price;
+
+}, 0);
+
+
+document
+.getElementById("total")
+.textContent =
+"Total : " +
+total.toLocaleString("fr-FR") +
+" G";
+
+}
+
+
+function removeFromCart(index) {
+
+const product = cart[index];
+
+product.quantity++;
+
+cart.splice(index, 1);
+
+updateCart();
+
+renderProducts();
+
+}
+
+
+function toggleCart() {
+
+const panel =
+document.getElementById("cart-panel");
+
+
+if (panel.style.display === "block") {
+
+panel.style.display = "none";
+
+} else {
+
+panel.style.display = "block";
+
+}
+
+}
+
+
+/* ================= WHATSAPP ================= */
+
+function orderWhatsApp() {
+
+if (cart.length === 0) {
+
+alert("Votre panier est vide.");
+
+return;
+
+}
+
+
+let message =
+"Bonjour, je veux commander :%0A%0A";
+
+
+cart.forEach(function(product) {
+
+message +=
+"- " +
+product.name +
+" : " +
+product.price +
+" G%0A";
+
+});
+
+
+const total =
+cart.reduce(function(sum, product) {
+
+return sum + product.price;
+
+}, 0);
+
+
+message +=
+"%0ATotal : " +
+total +
+" G";
+
+
+window.open(
+
+"https://wa.me/50932429034?text=" +
+message,
+
+"_blank"
+
+);
+
+}
+
+
+/* ================= DISCUSSION ================= */
+
+function toggleChat() {
+
+const chat =
+document.getElementById("chat-box");
+
+
+if (chat.style.display === "block") {
+
+chat.style.display = "none";
+
+} else {
+
+chat.style.display = "block";
+
+}
+
+}
+
+
+function sendMessage() {
+
+const input =
+document.getElementById("message-input");
+
+const text =
+input.value.trim();
+
+
+if (text === "") {
+
+return;
+
+}
+
+
+const messages =
+document.getElementById("chat-messages");
+
+
+messages.innerHTML +=
+
+`<div class="message">
+Vous : ${text}
+</div>`;
+
+
+input.value = "";
+
+
+setTimeout(function() {
+
+messages.innerHTML +=
+
+`<div class="message">
+Merci pour votre message 😊
+Si vous voulez commander un produit,
+cliquez sur <b>Ajouter au panier</b> 🛒
+</div>`;
+
+
+messages.scrollTop =
+messages.scrollHeight;
+
+}, 500);
+
+}
+
+
+/* ================= DEMARRAGE ================= */
+
+renderProducts();
+
+</script>
+
+</body>
+</html>
